@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+
+    <title>VBSCs in USA </title>
+
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+    integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+    crossorigin=""/>
+
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+    integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+    crossorigin=""></script>
+    
+    <link rel="stylesheet" href="leaflet-search-master/src/leaflet-search.css" />
+    <script src="leaflet-search-master/src/leaflet-search.js"></script>
+    <script src="https://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    
+
+
+    <style>
+
+        .info h4 {
+            margin: 0 0 5px;
+            color: #777;
+        }
+
+        #hi-zoom {
+            color: #f7f4ea;
+            padding: 2px;
+            text-align: center;
+            position: fixed;
+            top:88px;
+            left: 209px;
+            z-index: 400;
+        }
+
+        #ak-zoom {
+            color: #f7f4ea;
+            padding: 2px;
+            position: fixed;
+            top: 88px;
+            left: 140px;
+            z-index: 400;
+        }
+
+        #USA-zoom {
+            color: #f7f4ea;
+            padding: 2px;
+            position: fixed;
+            top: 88px;
+            left: 278px;
+            z-index: 400;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            color: whitesmoke;
+            font-family: "Work Sans", sans-serif;
+        }
+        
+        h1 {
+            padding: 8px 25px 8px 15px;
+            margin: 0;
+            color: whitesmoke ;
+            font-weight: 600;
+            font-size: 1.5em;
+            text-align: center;
+        }
+        
+        h2 {
+            margin: 0;
+            padding: 8px 25px 8px 15px;
+            color: #cc0066;
+            font-weight: 700;
+            font-size: 1.5em;
+            text-align: left;
+        }
+        
+        h3 {
+            margin: 0;
+            padding: 2px 2px 2px 2px;
+            color: whitesmoke;
+            font-weight: 600;
+            font-size: 1.2em;
+            text-align: left;
+        }
+        
+        #map {
+            position: absolute;
+            bottom: 0px;
+            right: 0;
+            width: 100%;
+            height: 90%;
+            z-index: 1;
+        }
+        
+        #title-panel {
+            position: fixed;
+            top: 0px;
+            width: 100%;
+            height: 10%;
+            background: #113968;
+            opacity: .9;
+            z-index: 400;
+            text-align: center;
+            
+        }
+
+        #side-panel {
+            position: absolute;
+            padding: 10px;
+            bottom:2px;
+            left: 0%;
+            height: 110px;
+            bottom: 15px;
+            background: #113968;
+            opacity: .9;
+            overflow-x: scroll;
+            border-radius: 5px;
+            z-index: 1;
+        }
+        
+        footer {
+            padding: 6px 10%;
+            width: 80%;
+        }
+        
+        p {
+            font-size: 1em;
+            color: #001323;
+        }
+
+        /* On mouse-over, add a grey background color */
+        .container:hover input ~ .checkmark {
+        background-color:gray;
+    }
+
+        /* When the checkbox is checked, add a color background */
+        .container input:checked ~ .checkmark {
+        background-color: #eb6841;
+    }
+
+         /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+     /* Style the checkmark/indicator */
+    .container .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid rgb(185, 102, 102);
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    input.MyButton {
+            color: rgb(0, 0, 0);
+            font-size: 150%;
+            height: 40px;
+            position: fixed;
+           bottom: 150px;
+           left: 2px;
+            z-index: 4000;
+            background: #whitesmoke;
+            border-radius: 5px;
+            opacity:.8
+        }
+     input.MyButton:hover {
+            background: grey;
+            z-index: 400;
+        }
+
+        /* header {
+            background-color: #666;
+            padding: 5px;
+            text-align: center;
+            font-size: 14px;
+            color: white;
+            z-index: 7;
+            }
+        */
+                
+    </style>
+</head>
+
+<body>
+        <div id='title-panel'>
+                <h1>Food Hubs by Value Claims and Products</h1>
+                
+        </div>
+    
+    <div id="map"></div>
+            
+
+            <div id='hi-zoom' class='bg-darken25 opacity75-on-hover round'>
+                    <img class='extent-button' src='./HiZoom.png' height='20px'>
+               </div>
+
+               <div id='ak-zoom' class='bg-darken25 opacity75-on-hover round'>
+                    <img class='extent-button' src='./AkZoom.png' height='20px'>
+               </div>
+
+               <div id='USA-zoom' class='bg-darken25 opacity75-on-hover round'>
+                    <img class='extent-button' src='./USA.png' height='20px'>
+               </div>
+
+               
+
+    
+        <form>
+                <input class="MyButton" type="button" value="View Food Hub Database" onclick="window.location.href='https://docs.google.com/spreadsheets/d/1H3NkfV60B5VHeXbtxNuJRVGR22Zo1l5vox5kwYHSKxY/edit#gid=0'" />
+         </form>
+    
+       
+    
+       <div id="side-panel">
+           
+               <h3>Filter by Value Claims:</h3>
+                <label class="container">
+                        <input type="checkbox"  id="check5" value="accessabil">Accessibility
+                        <span class="checkmark"></span>
+                        </label>
+
+                <label class="containe">
+                        <input type="checkbox"  id="check6" value="affordabil">Affordability
+                        <span class="checkmark"></span>
+                            </label> 
+
+                <label class="container">
+                    <input type="checkbox"  id="check7" value="commerce_e">Local Economic Development
+                    <span class="checkmark"></span>
+                        </label>
+        
+                <label class="container">
+                        <input type="checkbox"  id="check7" value="community">Community
+                        <span class="checkmark"></span>
+                            </label>
+
+                <label class="container">
+                        <input type="checkbox"  id="check7" value="education">Consumer Education
+                        <span class="checkmark"></span>
+                            </label>
+                <label class="container">
+                        <input type="checkbox"  id="check7" value="education">Farmer Education
+                        <span class="checkmark"></span>
+                                </label>
+
+                <label class="container">
+                    <input type="checkbox"  id="check7" value="fresh">Fresh
+                    <span class="checkmark"></span>
+                            </label>   
+
+                <label class="container">
+                        <input type="checkbox"  id="check7" value="health_nut">Health and Nutrition
+                        <span class="checkmark"></span>
+                                </label>
+
+                <label class="container">
+                        <input type="checkbox"  id="check7" value="humane_an">Humane treatement of animals
+                        <span class="checkmark"></span>
+                                </label>
+
+            <label class="container">
+                    <input type="checkbox"  id="check7" value="organic">Organic
+                    <span class="checkmark"></span>
+                            </label>
+
+            <label class="container">
+                    <input type="checkbox"  id="check7" value="sustainabl">Sustainability
+                    <span class="checkmark"></span>
+                            </label>
+
+            <label class="container">
+                    <input type="checkbox"  id="check7" value="transparen">Transparency
+                    <span class="checkmark"></span>
+                            </label>
+
+                            <label>
+
+    <h3>Filter by Products:</h3>
+            <label class="container">
+                    <input type="checkbox"  id="check7" value="eggs">Eggs
+                    <span class="checkmark"></span>
+                            </label>
+            <label class="container">
+                    <input type="checkbox"  id="check7" value="meat">Meat
+                    <span class="checkmark"></span>
+                            </label>
+            <label class="container">
+                    <input type="checkbox"  id="check7" value="dairy">Dairy
+                    <span class="checkmark"></span>
+                            </label>
+            <label class="container">
+                    <input type="checkbox"  id="check7" value="seafood">Seafood
+                    <span class="checkmark"></span>
+                            </label>
+
+            <label class="container">
+                    <input type="checkbox"  id="check7" value="preserves">Preserves/honey
+                    <span class="checkmark"></span>
+                            </label>
+            
+            <label class="container">
+                    <input type="checkbox"  id="check7" value="value_adde">Value-added/dry-goods
+                    <span class="checkmark"></span>
+                            </label>
+            <label class="container">
+                    <input type="checkbox"  id="check7" value="produce">Produce
+                    <span class="checkmark"></span>
+                            </label>
+            <label class="container">
+                    <input type="checkbox"  id="check7" value="eggs">Eggs
+                    <span class="checkmark"></span>
+                            </label>
+      </div>
+      
+    </div>
+    
+    
+    <script>
+
+        var map = new L.Map('map', {
+            center: [35, -98],
+            zoom: 4,
+            zoomControl: false,
+            });
+
+        
+
+         var Esri_WorldTerrain = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',  {
+                 attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+                 maxZoom: 13
+                      }).addTo(map);
+
+                        var southWest = L.latLng(-1, -190),
+                            northEast = L.latLng(74, -45);
+                            var bounds = L.latLngBounds(southWest, northEast);
+
+                            map.setMaxBounds(bounds);
+                            map.on('drag', function() {
+                                map.panInsideBounds(bounds, { animate: false });
+                            });
+
+          map.addControl( new L.Control.Search({
+                url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
+                jsonpParam: 'json_callback',
+                propertyName: 'display_name',
+                delayType: 1,
+                propertyLoc: ['lat','lon'],
+                collapsed: false,
+                autoType: true,
+                autoResize: true,
+                minLength: 2,
+                hideMarkerOnCollapse: true,
+                zoom: 6,
+                position: "topleft",
+            }) );            
+
+
+         $.getJSON('./FoodHubsFix.geojson', function (data) {
+             console.log(data); // you have access to the geojson data here!
+           
+             
+
+        var vbscs = L.geoJson(data, {
+                 pointToLayer: function (feature, latlng) {
+                     return L.circleMarker(latlng, {
+                         color: '#05386b',
+                         fillOpacity: .8,
+                         radius: feature.properties.service_ar*2.5
+                     })
+                 },
+                 
+                 onEachFeature: function (feature, layer) {
+
+                     var popup = '  <b>Business Name: </b>' + feature.properties.business_n + '<br><b>Location: </b>' + feature.properties.city + ', '+ feature.properties.state + '<br><b>Website: </b><a href="' + feature.properties.business_w + '">' + feature.properties.business_w + '</a>'
+
+                     layer.bindPopup(popup);
+                 }
+
+                 
+                 
+             }).addTo(map); 
+
+             vbscs.eachLayer(function(layer) {
+                    layer.on('mouseover', function(e) {
+                        e.target.setStyle({
+                            color: '#b96666',
+                            fillColor: '#b96666'
+                        });
+                    });
+                    layer.on('mouseout', function(e) {
+                        e.target.setStyle({
+                            color: '#05386b',
+                            fillColor: '#05386b'
+                        });
+                    });
+                });
+
+      var currentChecked = [];
+            $('input').on('change', function () {
+
+                var val = $(this).val();
+
+                if ($(this).attr('checked')) {
+                    currentChecked.push(val);
+                    filterSelection(currentChecked);
+                } else {
+
+                    var i = currentChecked.indexOf(val);
+                    if (val != 1) {
+                        currentChecked.splice(i, 1);
+                    }
+                    filterSelection(currentChecked);
+                }
+            });
+
+
+            var removedLayers = L.layerGroup();
+
+            function filterSelection(vals) {
+                // first add any layers from the removed layers
+                // and clear the removedLayers
+                removedLayers.eachLayer(function (layer) {
+
+                    map.addLayer(layer);
+                    removedLayers.removeLayer(layer);
+
+                });
+                // then loop through our currently displayed properties
+                // add them to the removedLayers group and remove from map
+
+                for (var i = 0; i < vals.length; i++) {
+
+                    vbscs.eachLayer(function (layer) {
+
+
+                        if (layer.feature.properties[vals[i]] == false) {
+
+                            removedLayers.addLayer(layer);
+                            map.removeLayer(layer);
+
+                        }
+
+                    });
+
+                }
+
+            }
+            
+        });
+
+        // HI zoom button
+    var hiZoom = document.getElementById('hi-zoom');
+
+    hiZoom.onclick = function () {
+        map.setView([20, -157.8], 7);
+    }
+
+    // AK zoom button
+    var akZoom = document.getElementById('ak-zoom');
+
+    akZoom.onclick = function () {
+        map.setView([61.397514, -157.049236], 4);
+    }
+
+    // USA zoom button
+    var USAZoom = document.getElementById('USA-zoom');
+
+    USAZoom.onclick = function () {
+        map.setView([35, -98], 4);
+    }
+
+    </script>
+   
+</body>
+
+
+</html>

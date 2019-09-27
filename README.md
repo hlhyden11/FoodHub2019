@@ -1,0 +1,1 @@
+Mapbox GL API employed to load data onto a basemap, cluster data points into groups dynamiclly, and employ search option for zooming user to goegraphic location upon search.  
